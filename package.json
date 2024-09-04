@@ -1,0 +1,15 @@
+{
+  "name": "music-mood-recommender",
+  "version": "1.0.0",
+  "description": "A web application that recommends music based on user mood using sentiment analysis.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sentiment": "^5.0.2"
+  },
+  "author": "Your Name",
+  "license": "ISC"
+}
