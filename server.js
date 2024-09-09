@@ -54,7 +54,7 @@ async function analyzeSentimentUsingOpenAI(lyrics, songTitle) {
       },
       {
         headers: {
-          'Authorization': `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`,  // Use your actual OpenAI API key
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
           'Content-Type': 'application/json'
         }
       }
