@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 
 const AlbumContainer = styled.div`
   display: flex;
@@ -52,6 +53,23 @@ const LinkButton = styled.a`
 `;
 
 function AlbumList({ albums, onSave }) {
+  const [youtubeUrl, setYoutubeUrl] = useState({});
+
+  const handleListen = async (title, artist) => {
+    try {
+      const response = await fetch(`/youtube-search?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}`);
+      const data = await response.json();
+      if (data.url) {
+        setYoutubeUrl((prevState) => ({
+          ...prevState,
+          [`${title}-${artist}`]: data.url
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching YouTube link:', error);
+    }
+  };
+
   if (albums.length === 0) {
     return <p>No recommendations available for this mood.</p>;
   }
@@ -67,7 +85,13 @@ function AlbumList({ albums, onSave }) {
           </div>
           <div>
             <Button onClick={() => onSave(album)}>Tag for Later</Button>
-            <LinkButton href={album.mp3}>Listen</LinkButton>
+            <LinkButton
+              href={youtubeUrl[`${album.title}-${album.artist}`] || '#'}
+              target="_blank"
+              onClick={() => handleListen(album.title, album.artist)}
+            >
+              Listen
+            </LinkButton>
           </div>
         </AlbumItem>
       ))}

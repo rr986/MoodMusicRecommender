@@ -11,13 +11,15 @@ const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'build')));
 
 const songs = [
   {
-    title: "Song A",
-    artist: "Artist 1",
+    title: "Wherever I Go",
+    artist: "2Cellos",
     mp3: "song-a.mp3",
     lyrics: "Sample lyrics of song A",
     rating: 4.5,
@@ -41,6 +43,49 @@ const songs = [
   }
 ];
 
+// YouTube search function to get the first result for the song
+async function searchYouTube(songTitle, artist) {
+  try {
+    const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+      params: {
+        part: 'snippet',
+        q: `${songTitle} ${artist}`,
+        type: 'video',
+        key: YOUTUBE_API_KEY,
+        maxResults: 1
+      }
+    });
+
+    if (response.data.items.length > 0) {
+      const videoId = response.data.items[0].id.videoId;
+      return `https://www.youtube.com/watch?v=${videoId}`;
+    } else {
+      console.log('No video found for this song.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error searching YouTube:', error);
+    return null;
+  }
+}
+
+// Route to search for a song on YouTube
+app.get('/youtube-search', async (req, res) => {
+  const { title, artist } = req.query;
+
+  if (!title || !artist) {
+    return res.status(400).send({ message: "Please provide both song title and artist." });
+  }
+
+  const videoUrl = await searchYouTube(title, artist);
+
+  if (videoUrl) {
+    res.json({ url: videoUrl });
+  } else {
+    res.status(404).send({ message: 'No video found for this song.' });
+  }
+});
+
 // Function to make OpenAI API call for sentiment analysis
 async function analyzeSentimentUsingOpenAI(lyrics, songTitle) {
   console.log(`Analyzing sentiment for song: ${songTitle} with lyrics: ${lyrics}`);
@@ -54,7 +99,7 @@ async function analyzeSentimentUsingOpenAI(lyrics, songTitle) {
       },
       {
         headers: {
-          'Authorization': `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`,  // Use your actual OpenAI API key
+          'Authorization': `sk-8GiZ7xLuwkHz5xh7RrRpul1IIoc-nzauDJNDWdJ4lMT3BlbkFJxXxAxI-4JnqWBK_J4-vYDDUtR5Jcm-s1bobCtjZlcA`,
           'Content-Type': 'application/json'
         }
       }
