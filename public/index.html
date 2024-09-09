@@ -4,66 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Mood Recommender</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        #app {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        input, button {
-            padding: 10px;
-            margin: 10px 0;
-            width: 100%;
-        }
-        .album {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-        }
-        .album-title {
-            font-weight: bold;
-        }
-        #album-list {
-            margin-top: 20px;
-        }
-        #saved-albums {
-            margin-top: 20px;
-            background-color: #f9f9f9;
-            padding: 10px;
-        }
-    </style>
 </head>
 <body>
-<div id="app">
-    <h1>Music Mood Recommender</h1>
-    <p>Enter your mood below, and we'll recommend music for you!</p>
-    <input type="text" id="moodInput" placeholder="How are you feeling today? (e.g., happy, sad, angry)">
-    <button id="recommendButton">Get Music Recommendations</button>
-
-    <div id="album-list">
-        <h2>Recommended Albums</h2>
-        <div id="albums"></div>
-    </div>
-
-    <div id="saved-albums">
-        <h2>Albums Tagged for Later</h2>
-        <div id="savedAlbums"></div>
-    </div>
-</div>
-
-<script src="frontend.js"></script>
+<div id="root"></div>
 </body>
 </html>

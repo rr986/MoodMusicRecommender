@@ -1,15 +1,38 @@
 {
   "name": "music-mood-recommender",
   "version": "1.0.0",
+  "type": "module",
   "description": "A web application that recommends music based on user mood using sentiment analysis.",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node server.js",
+    "build": "react-scripts build",
+    "convex": "convex dev"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.0.2",
+    "convex": "^1.15.0",
     "express": "^4.19.2",
-    "sentiment": "^5.0.2"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1",
+    "sentiment": "^5.0.2",
+    "styled-components": "^6.1.13"
   },
-  "author": "Your Name",
-  "license": "ISC"
+  "author": "",
+  "license": "ISC",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
