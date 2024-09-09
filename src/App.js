@@ -13,7 +13,7 @@ const AppContainer = styled.div`
 
 function App() {
   const [albums, setAlbums] = useState([]);
-  const [savedAlbums, setSavedAlbums] = useState([]);  // Local state for saved albums
+  const [savedAlbums, setSavedAlbums] = useState([]);
   const [sentimentWeight, setSentimentWeight] = useState(0.8);
   const [popularityWeight, setPopularityWeight] = useState(0.2);
 
@@ -44,17 +44,22 @@ function App() {
   };
 
   const saveForLater = (album) => {
-    saveSongMutation({ song: album, userId }).then(() => {
-      console.log('Song saved successfully');
-    }).catch(error => {
-      console.error('Error saving song:', error);
-    });
+    const isAlreadySaved = savedAlbums.some((savedAlbum) => savedAlbum.mp3 === album.mp3);
+
+    if (!isAlreadySaved) {
+      saveSongMutation({ song: album, userId }).then(() => {
+        console.log('Song saved successfully');
+      }).catch(error => {
+        console.error('Error saving song:', error);
+      });
+    } else {
+      console.log('Song is already saved');
+    }
   };
 
   const handleDelete = (songId) => {
     deleteSongMutation({ songId }).then(() => {
       console.log(`Song with ID ${songId} deleted successfully`);
-      // Update local state to reflect the deletion
       const updatedAlbums = savedAlbums.filter((album) => album._id !== songId);
       setSavedAlbums(updatedAlbums);
     }).catch(error => {
@@ -93,4 +98,6 @@ function App() {
 }
 
 export default App;
+
+
 
