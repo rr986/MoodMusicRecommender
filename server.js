@@ -11,15 +11,17 @@ const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'build')));
 
 const songs = [
   {
-    title: "Song A",
-    artist: "Artist 1",
+    title: "Wherever I Go",
+    artist: "2Cellos",
     mp3: "song-a.mp3",
-    lyrics: "Sample lyrics of song A",
+    lyrics: "I know I could lie but I'm telling the truth, Wherever I go there's a shadow of you, I know I could try looking for something new, But wherever I go, I'll be looking for you",
     rating: 4.5,
     popularity: 5000
   },
@@ -40,6 +42,49 @@ const songs = [
     popularity: 10000
   }
 ];
+
+// YouTube search function to get the first result for the song
+async function searchYouTube(songTitle, artist) {
+  try {
+    const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+      params: {
+        part: 'snippet',
+        q: `${songTitle} ${artist}`,
+        type: 'video',
+        key: YOUTUBE_API_KEY,
+        maxResults: 1
+      }
+    });
+
+    if (response.data.items.length > 0) {
+      const videoId = response.data.items[0].id.videoId;
+      return `https://www.youtube.com/watch?v=${videoId}`;
+    } else {
+      console.log('No video found for this song.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error searching YouTube:', error);
+    return null;
+  }
+}
+
+// Route to search for a song on YouTube
+app.get('/youtube-search', async (req, res) => {
+  const { title, artist } = req.query;
+
+  if (!title || !artist) {
+    return res.status(400).send({ message: "Please provide both song title and artist." });
+  }
+
+  const videoUrl = await searchYouTube(title, artist);
+
+  if (videoUrl) {
+    res.json({ url: videoUrl });
+  } else {
+    res.status(404).send({ message: 'No video found for this song.' });
+  }
+});
 
 // Function to make OpenAI API call for sentiment analysis
 async function analyzeSentimentUsingOpenAI(lyrics, songTitle) {
