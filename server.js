@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 const songs = [
   {
     title: "Wherever I Go",
-    artist: "2Cellos",
+    artist: "OneRepublic",
     mp3: "song-a.mp3",
     lyrics: "I know I could lie but I'm telling the truth, Wherever I go there's a shadow of you, I know I could try looking for something new, But wherever I go, I'll be looking for you",
     rating: 4.5,
