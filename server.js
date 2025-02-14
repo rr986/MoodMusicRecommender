@@ -6,7 +6,6 @@ import { fileURLToPath } from 'url';
 import saveSong from './src/convex/saveSong.js';
 import getSavedSongs from './src/convex/getSavedSongs.js';
 const app = express();
-const port = 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -175,6 +174,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/build/index.html'));
 });
 
-app.listen(port, () => {
-  console.log(`Music Mood Recommender app is running at http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Music Mood Recommender app is running on port ${port}`);
 });
