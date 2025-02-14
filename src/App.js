@@ -64,7 +64,7 @@ function App() {
 
   return (
     <AppContainer>
-      <h1>Music Mood Recommender</h1>
+      <h1>Mood Music Recommender</h1>
       <MoodInput onSubmit={fetchRecommendations} />
       <div>
         <label>Adjust Sentiment Weight: {sentimentWeight}</label>
